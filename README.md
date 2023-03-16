@@ -1,8 +1,12 @@
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?size=30&duration=4500&color=F77500&width=600&lines=%F0%9F%A6%81_Welcome_Eunsoo_Choi_%F0%9F%A6%81+)](https://git.io/typing-svg)
+## 안녕하세요 🦁
+#####백엔드 개발자를 꿈꾸는 아기사자 최은수입니다 🌟🌈
 
-<div align="center">
+--------
 
-![소개_인사하는 사자](https://user-images.githubusercontent.com/81146131/221498526-e2db6afd-e36d-447c-ab58-58069793bedf.gif)
+###공부하는 중💻
+<img alt="Python" src ="https://img.shields.io/badge/ -Python-blue"/><img alt="JAVA" src ="https://img.shields.io/badge/ -JAVA-yellow"/><img alt="C" src ="https://img.shields.io/badge/ -C-lightgrey"/>
 
-
-</div>
+###📞
+- regulus_leo08@naver.com
+- instagram : e_su_c
+- github : eunsu02
