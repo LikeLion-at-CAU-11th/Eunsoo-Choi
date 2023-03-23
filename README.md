@@ -6,7 +6,7 @@
 ###  공부하는 중💻
 <img alt="Python" src ="https://img.shields.io/badge/ -Python-blue"/><img alt="JAVA" src ="https://img.shields.io/badge/ -JAVA-yellow"/><img alt="C" src ="https://img.shields.io/badge/ -C-lightgrey"/>
 
-### 📞
+### 연락처📞
 - regulus_leo08@naver.com
 - instagram : e_su_c
 - github : eunsu02
