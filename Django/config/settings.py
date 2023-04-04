@@ -23,8 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-
 secret_file = os.path.join(BASE_DIR, 'secrets.json') # secrets.json 파일 위치를 명시
 
 with open(secret_file) as f:
@@ -45,6 +43,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 DJANGO_APPS = [
@@ -56,15 +55,18 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-PROJECT_APPS=[
-    'posts', 'introduction'
+PROJECT_APPS = [
+    'posts', 'introduction','accounts'
 ]
 
-THIRD_PARTY_APPS=[
-    
+THIRD_PARTY_APPS = [
+
 ]
 
-INSTALLED_APPS=DJANGO_APPS+PROJECT_APPS+THIRD_PARTY_APPS
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
+
+AUTH_USER_MODEL='accounts.Member'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
