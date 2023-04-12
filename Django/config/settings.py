@@ -59,12 +59,21 @@ PROJECT_APPS = [
     'posts', 'introduction','accounts'
 ]
 
-THIRD_PARTY_APPS = [
-
+THIRD_PARTY_APPS = [ 
+    "corsheaders",
 ]
 
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
+
+ALLOWED_HOSTS = ['*']    # 모든 호스트에게 허용
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [ 
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
 AUTH_USER_MODEL='accounts.Member'
 
@@ -76,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
