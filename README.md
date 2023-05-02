@@ -32,3 +32,8 @@
 ### 5주차 과제 - 챌린지
 ![image](https://user-images.githubusercontent.com/101704889/230342832-326d7ec6-81c3-4807-a8f2-7473d5a5dac6.png)
 =======
+
+### 6주차 과제
+
+http://likelion-11th.p-e.kr:8000/
+
