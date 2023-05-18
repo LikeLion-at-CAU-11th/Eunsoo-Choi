@@ -49,3 +49,12 @@ http://likelion.kro.kr:8000
 https://github.com/eunsu02/likelion-toyproject.git
 
 ==========
+
+### 8주차 과제
+
+# 스탠다드
+
+<img width="680" alt="8주차 스탠다드" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/e98e8223-382d-4ff4-a45b-ec151f9a343c">
+
+# 챌린지
+<img width="519" alt="8주차 챌린지" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/a3c98fb4-9b2f-480d-bf16-4b40c5b2262b">
