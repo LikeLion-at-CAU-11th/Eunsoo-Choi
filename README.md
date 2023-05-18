@@ -37,18 +37,22 @@
 
 http://likelion-11th.p-e.kr:8000/
 
-======
+-------
 
 ### 7주차 과제 Toy Project
 
 # ERD
 <img width="454" alt="토이 프로젝트 erd" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/cc327fb5-7c68-407b-ac0c-9174479006bb">
+
 # url
+
 http://likelion.kro.kr:8000
+
 # Repository
+
 https://github.com/eunsu02/likelion-toyproject.git
 
-==========
+-------
 
 ### 8주차 과제
 
