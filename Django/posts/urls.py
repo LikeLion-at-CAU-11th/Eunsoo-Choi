@@ -2,6 +2,7 @@ from django.urls import path,include
 from posts.views import *
 from . import views
 from rest_framework.routers import DefaultRouter
+#as_view()를 통해서 함수 연결하는 과정을 대신 해줌!
 router=DefaultRouter()
 router.register('',views.PostViewSet)
 urlpatterns = [

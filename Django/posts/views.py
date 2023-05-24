@@ -260,8 +260,13 @@ class CommentDetail(APIView):
     
 from rest_framework import generics
 from rest_framework import mixins
+#mixins은 apiview에서 request method마다 serializer 처리할때 중복되는 과정을 줄여줄 수 있다.
+#List/Create/Retrieve/Update/Destroy+ModelMixin = 리스팅,생성+저장,모델인스턴스 돌려주기, 업데이트+저장, 삭제
+#보통 genericApiView와 결합하여 crud를 구현한다.
+#mixin 클래스 안에 존재하는 것과 같은 클래스 이름 쓸 경우 오버라이딩될 수 있으니 주의!!! 이름 신중하게 지을것!
 
 class PostListMixins(mixins.ListModelMixin,mixins.CreateModelMixin, generics.GenericAPIView):
+    #아래 두줄처럼 queryset, serializer_class 지정해줘야함.
     queryset = Post.objects.all()
     serializer_class=PostSerializer
     
@@ -280,6 +285,8 @@ class PostDetailMixins(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.
     def delete(self,request,*args,**kwargs):
         return self.destroy(request,*args,**kwargs)
     
+#mixin 여러개 상속해야하기 때문에 concrete generic views 사용하면 가독성 좋아짐
+# ex) createAPIView는 genericAPIView, CreateModelMixin 상속받음. 
 class PostListGenericAPIView(generics.ListCreateAPIView):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
@@ -289,7 +296,12 @@ class PostDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=PostSerializer
     
 from rest_framework import viewsets
+#viewset에서는 urls 말고 여기에 as_view()
+#코드 간소화 방법
+#queryset과 serializer 한번에 처리 가능
 
+# ReadOnlyModelViewSet : 목록/특정 레코드 조회 => 속도 측면에서 좋음. 
+# ModelViewSet이 보통 많이 쓰임. 
 class PostViewSet(viewsets.ModelViewSet):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
