@@ -41,14 +41,14 @@ http://likelion-11th.p-e.kr:8000/
 
 ### 7주차 과제 Toy Project
 
-# ERD
+### ERD
 <img width="454" alt="토이 프로젝트 erd" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/cc327fb5-7c68-407b-ac0c-9174479006bb">
 
-# url
+### url
 
 http://likelion.kro.kr:8000
 
-# Repository
+### Repository
 
 https://github.com/eunsu02/likelion-toyproject.git
 
@@ -56,9 +56,19 @@ https://github.com/eunsu02/likelion-toyproject.git
 
 ### 8주차 과제
 
-# 스탠다드
+### 스탠다드
 
 <img width="680" alt="8주차 스탠다드" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/e98e8223-382d-4ff4-a45b-ec151f9a343c">
 
-# 챌린지
-<img width="519" alt="8주차 챌린지" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/a3c98fb4-9b2f-480d-bf16-4b40c5b2262b">
+### 챌린지 (수정본)
+<img width="480" alt="8주차 과제 수정 1" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/3a56f0c0-5832-43b4-9710-f4e479d45a09">
+<img width="491" alt="8주차 과제 수정 2" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/f7ec74b6-8ae3-4c05-b015-20c4f43f74e5">
+
+-------
+### 9주차 과제
+
+### 스탠다드
+<img width="633" alt="9주차 스탠다드2" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/f684a78c-33ff-4daa-a1e4-0b022eccc0a8">
+<img width="417" alt="9주차 스탠다드1" src="https://github.com/LikeLion-at-CAU-11th/Eunsoo-Choi/assets/101704889/05f54314-7c23-4aba-8f1e-b469428cf4bb">
+
+
