@@ -17,10 +17,14 @@ class PostSerializer(serializers.ModelSerializer):
         # exclude =['id']   
         
         #create,update,delete 는 불가능하고 read만되는 필드 선언
+        #속도가 빨라지는 장점이 있음
         #read_only_fields=['writer']
         
 class CommentSerializer(serializers.ModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
     class Meta:
         model=Comment
         fields="__all__"
+        
+
     
