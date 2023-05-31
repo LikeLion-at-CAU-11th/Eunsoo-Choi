@@ -175,7 +175,7 @@ def post_date(request):
 class PostList(APIView) :
     #게시글 새로 만들기
     def post(self,request,format=None):
-        serializer = PostSerializer(data=request.data) #요청받은 데이터를 데이ㅓ에 넣고, 이걸 포스트시리얼라이저에 정렬
+        serializer = PostSerializer(data=request.data) #요청받은 데이터를 데이터에 넣고, 이걸 포스트시리얼라이저에 정렬
         if serializer.is_valid(): #유효하고 검증된 값인지
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
@@ -195,7 +195,7 @@ class PostDetail(APIView):
         return Response(serializer.data)
     #put은 전체 바꾸기 patch는 일부분
     def put(self,request,id):
-        post=get_object_or_404(Post,id=id)
+        post=get_object_or_404(Post,id=id) #객체가 존재하지 않을때 http404 에러를 발생시킴
         serializer=PostSerializer(post,data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -207,33 +207,114 @@ class PostDetail(APIView):
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+#댓글 전체리스트 가져오기
 class CommentList(APIView):
-    def post(self,request,format=None):
-        serializer=CommentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
     def get(self,request,format=None):
         comments=Comment.objects.all()
         serializer=CommentSerializer(comments,many=True)
         return Response(serializer.data)
 
-class CommentDetail(APIView):
-    def get(self,request,id):
-        comment=get_object_or_404(Comment,id=id)
+#글을 중심으로 가져오기
+class PostCommentList(APIView):
+    #글 번호를 이용하여 특정 글의 댓글 전체 가져오기
+    def get(self,request,key,format=None):
+        #comments=get_object_or_404(Comment,post=key)
+        comments=Comment.objects.filter(post=key)
+        serializers=CommentSerializer(comments,many=True)
+        return Response(serializers.data)
+    
+    #글 번호를 이용하여 특정 글에 댓글 생성하기
+    def post(self,request,key):
+        commentPost=Post.objects.get(id=key)
+        data=request.data
+        data["post"]=key        
+        serializer=CommentSerializer(data=data)
+        #serializer=CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data["post"]=commentPost
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+
+#글 번호와 댓글 번호를 이용하여 조회, 수정, 삭제하기
+class CommentDetail(APIView):          
+    def get(self,request,id,key):
+        comment=get_object_or_404(Comment,id=id,post=key)
         serializer=CommentSerializer(comment)
         return Response(serializer.data)
-    def put(self,request,id):
-        comment=get_object_or_404(Comment,id=id)
+    
+    def put(self,request,id,key):
+        comment=get_object_or_404(Comment,id=id,post=key)
         serializer=CommentSerializer(comment,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-    def delete(self,request,id):
-        comment=get_object_or_404(Comment,id=id)
+    def delete(self,request,id,key):
+        comment=get_object_or_404(Comment,id=id,post=key)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+from rest_framework import generics
+from rest_framework import mixins
+#mixins은 apiview에서 request method마다 serializer 처리할때 중복되는 과정을 줄여줄 수 있다.
+#List/Create/Retrieve/Update/Destroy+ModelMixin = 리스팅,생성+저장,모델인스턴스 돌려주기, 업데이트+저장, 삭제
+#보통 genericApiView와 결합하여 crud를 구현한다.
+#mixin 클래스 안에 존재하는 것과 같은 클래스 이름 쓸 경우 오버라이딩될 수 있으니 주의!!! 이름 신중하게 지을것!
+
+class PostListMixins(mixins.ListModelMixin,mixins.CreateModelMixin, generics.GenericAPIView):
+    #아래 두줄처럼 queryset, serializer_class 지정해줘야함.
+    queryset = Post.objects.all()
+    serializer_class=PostSerializer
+    
+    def get(self,request,*args,**kwargs):
+        return self.list(request)
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
+
+class PostDetailMixins(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin, mixins.DestroyModelMixin,generics.GenericAPIView):
+    queryset= Post.objects.all()
+    serializer_class=PostSerializer
+    def get(self,request,*args,**kwargs):
+        return self.retrieve(request)
+    def put(self,request,*args,**kwargs):
+        return self.update(request,*args,**kwargs)
+    def delete(self,request,*args,**kwargs):
+        return self.destroy(request,*args,**kwargs)
+    
+#mixin 여러개 상속해야하기 때문에 concrete generic views 사용하면 가독성 좋아짐
+# ex) createAPIView는 genericAPIView, CreateModelMixin 상속받음. 
+class PostListGenericAPIView(generics.ListCreateAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostSerializer
+    
+class PostDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Post.objects.all()
+    serializer_class=PostSerializer
+    
+from rest_framework import viewsets
+#viewset에서는 urls 말고 여기에 as_view()
+#코드 간소화 방법
+#queryset과 serializer 한번에 처리 가능
+
+# ReadOnlyModelViewSet : 목록/특정 레코드 조회 => 속도 측면에서 좋음. 
+# ModelViewSet이 보통 많이 쓰임. 
+class PostViewSet(viewsets.ModelViewSet):
+    queryset=Post.objects.all()
+    serializer_class=PostSerializer
+    
+#post_list = PostViewSet.as_view({
+#    'get':'list',
+#    'post':'create',
+#})
+#post_detail_vs = PostViewSet.as_view({
+#    'get':'retrieve',
+#    'put':'update',
+#    'patch':'partial_update',
+#    'delete':'destroy',
+#})
+
+    
