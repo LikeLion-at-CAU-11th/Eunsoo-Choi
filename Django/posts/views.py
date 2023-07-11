@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status #상태도 받아야하니까
 from django.http import Http404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 def hello_world(request):
     if request.method == "GET":
@@ -173,6 +174,7 @@ def post_date(request):
     
 #보통 리스트에는 get, post가 들어감.
 class PostList(APIView) :
+    permission_classes=[IsAuthenticatedOrReadOnly]
     #게시글 새로 만들기
     def post(self,request,format=None):
         serializer = PostSerializer(data=request.data) #요청받은 데이터를 데이터에 넣고, 이걸 포스트시리얼라이저에 정렬

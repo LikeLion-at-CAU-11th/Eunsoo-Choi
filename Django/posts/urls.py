@@ -14,13 +14,12 @@ urlpatterns = [
     #path('newcomment/',create_comment,name="create_comment"),
     #path('date/',post_date,name="post_date")
     #path('',PostList.as_view()),
-    #path('<int:id>/',PostDetail.as_view()),
+    path('<int:id>/',PostDetail.as_view()),
     path('com/',CommentList.as_view()),
     path('com/<int:key>/',PostCommentList.as_view()),
     path('com/<int:id>/<int:key>/',CommentDetail.as_view()),
-    
     #path('',views.post_list),
     #path('<int:pk>/',views.post_detail_vs),
-    
+    path('',PostList.as_view()),
     path('',include(router.urls))
 ]
