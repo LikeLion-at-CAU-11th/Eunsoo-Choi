@@ -24,4 +24,6 @@ urlpatterns = [
     path('posts/', include('posts.urls')),
     path('introduction/',include('introduction.urls')),
     path('accounts/',include('accounts.urls')),
+    path('accounts/',include('dj_rest_auth.urls')),
+    path('accounts/',include('allauth.urls')),
 ]

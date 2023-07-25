@@ -17,10 +17,16 @@ from django.core.exceptions import *
 from datetime import timedelta
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+# }
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    )
 }
 
 REST_USE_JWT = True
@@ -71,6 +77,9 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #소셜로그인 site 설정
+    'django.contrib.sites',
 ]
 
 PROJECT_APPS = [
@@ -81,10 +90,36 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
+    
+    # 소셜로그인 라이브러리
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # allauth.socialaccount.providers.{소셜로그인제공업체}
+    # {소셜로그인제공업체} 부분에는 구글 외에도 카카오,네이버 추가 가능
+    'allauth.socialaccount.providers.google',
 ]
 
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
+
+#사이트는 1개만 사용할것이라고 명시
+SITE_ID=1
+
+
+# 나중에 dj_rest_auth.registration.views.SocialLoginView을 쓰기위해 추가
+REST_USE_JWT = True
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username' # username 필드 사용 x
+ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
+ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+
 
 ALLOWED_HOSTS = ['*']    # 모든 호스트에게 허용
 
