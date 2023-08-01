@@ -23,7 +23,7 @@ class AuthView(APIView):
     def post(self, request):
 
         serializer = self.serializer_class(data=request.data)
-		#멤버 정보가 있고 융효하다는 것을 확인		
+		#멤버 정보가 있고 유효하다는 것을 확인		
         if serializer.is_valid(raise_exception=False):
             member = serializer.validated_data['member']
             access_token = serializer.validated_data['access_token']
@@ -85,8 +85,6 @@ from django.shortcuts import redirect
 BASE_URL = 'http://localhost:8000/'
 GOOGLE_CALLBACK_URI = BASE_URL + 'accounts/google/callback/'
 
-# views.py
-from django.shortcuts import redirect
 
 # 구글 로그인
 def google_login(request):
@@ -100,6 +98,11 @@ from django.http import JsonResponse
 import requests
 from .models import *
 from allauth.socialaccount.models import SocialAccount
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from allauth.socialaccount.providers.google import views as google_view
+
+
 
 def google_callback(request):
     client_id = '957165461124-clsiomsm15sv3v65cn84l24fkg33bpgl.apps.googleusercontent.com'
@@ -153,8 +156,8 @@ def google_callback(request):
             return JsonResponse({'err_msg': 'no matching social type'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 이미 Google로 제대로 가입된 유저 => 로그인 & 해당 우저의 jwt 발급
-        data = {'access_token': access_token, 'code': code}
-        accept = requests.post(f"{BASE_URL}api/user/google/login/finish/", data=data)
+        data = {'access_token': token_req_json.get('id_token'), 'code': code}
+        accept = requests.post(f"{BASE_URL}accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
 
         # 뭔가 중간에 문제가 생기면 에러
@@ -166,9 +169,9 @@ def google_callback(request):
         return JsonResponse(accept_json)
 
     except Member.DoesNotExist:
-        # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
-        data = {'access_token': access_token, 'code': code}
-        accept = requests.post(f"{BASE_URL}api/user/google/login/finish/", data=data)
+        # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급 #token_req_json.get('id_token')
+        data = {'access_token': token_req_json.get('id_token'), 'code': code}
+        accept = requests.post(f"{BASE_URL}accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
 
         # 뭔가 중간에 문제가 생기면 에러
@@ -182,3 +185,10 @@ def google_callback(request):
     except SocialAccount.DoesNotExist:
     	# User는 있는데 SocialAccount가 없을 때 (=일반회원으로 가입된 이메일일때)
         return JsonResponse({'err_msg': 'email exists but not social user'}, status=status.HTTP_400_BAD_REQUEST)
+    
+#구글 소셜 로그인
+
+class GoogleLogin(SocialLoginView):
+    adapter_class=google_view.GoogleOAuth2Adapter
+    callback_url=GOOGLE_CALLBACK_URI
+    client_class=OAuth2Client
