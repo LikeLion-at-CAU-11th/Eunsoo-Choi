@@ -23,6 +23,8 @@ class Post(BaseModel):
     writer = models.ForeignKey(Member,on_delete=models.CASCADE)
     content = models.TextField(verbose_name="내용")
     category = models.CharField(choices=CHOICES, max_length=20)
+    #모델에 사진 추가
+    thumbnail=models.ImageField(verbose_name="썸네일", null=True)
  
 
 class Comment(BaseModel):
